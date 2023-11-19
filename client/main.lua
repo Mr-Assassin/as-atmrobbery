@@ -61,78 +61,82 @@ AddEventHandler("mrf_atmrobbery:client:attachRopeATM", function()
         if DoesEntityExist(ATMObject.prop) then
             TaskTurnPedToFaceEntity(PlayerPed, ATMObject.prop, 1000)
             QBCore.Functions.Progressbar('attachatm', "Attaching rope to ATM", 4000, false, true,
-                {                                                                                   -- Name | Label | Time | useWhileDead | canCancel
+                {
                     disableMovement = true,
                     disableCarMovement = true,
                     disableMouse = false,
                     disableCombat = true,
                 }, {
-                animDict = 'anim@gangops@facility@servers@',
-                anim = 'hotwire',
-                flags = 16,
-            }, {}, {}, function() -- Play When Done
-                if Config.PSDispacth then
-                    exports[Config.Dispatch]:SuspiciousActivity()
-                end
-                ClearPedTasks(PlayerPed)
-                local ObjectDes = nil
-                local ObjectConsole = nil
-                local ObjectCoords = GetEntityCoords(ATMObject.prop)
-                local ObjectHeading = GetEntityHeading(ATMObject.prop)
-
-                if ATMObject.type == "prop_atm_02" then
-                    ObjectDes = CreateObject("loq_atm_02_des",
-                        vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.35), true)
-                    ObjectConsole = CreateObject("loq_atm_02_console",
-                        vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.55), true)
-                    SetEntityHeading(ObjectDes, ObjectHeading)
-                    SetEntityHeading(ObjectConsole, ObjectHeading)
-                    FreezeEntityPosition(ObjectDes, true)
-                    FreezeEntityPosition(ObjectConsole, true)
-                elseif ATMObject.type == "prop_atm_03" then
-                    ObjectDes = CreateObject("loq_atm_03_des",
-                        vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.35), true)
-                    ObjectConsole = CreateObject("loq_atm_03_console",
-                        vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.65), true)
-                    SetEntityHeading(ObjectDes, ObjectHeading)
-                    SetEntityHeading(ObjectConsole, ObjectHeading)
-                    FreezeEntityPosition(ObjectDes, true)
-                    FreezeEntityPosition(ObjectConsole, true)
-                end
-                RobberyStarted = false
-                Wait(500)
-                local ATMObjectProp = ObjToNet(ATMObject.prop)
-                local NetworkVehicle = VehToNet(Vehicle)
-                local NetObjectConsole = ObjToNet(ObjectConsole)
-                TriggerServerEvent("mrf_atmrobbery:server:attachATM", ATMObjectProp, ObjectCoords.x, ObjectCoords.y,
-                    ObjectCoords.z, NetworkVehicle, NetObjectConsole)
-                SetEntityCoords(ATMObject.prop, ObjectCoords.x, ObjectCoords.y, ObjectCoords.z - 10.0)
-                inVehicle = true
-                while inVehicle do
-                    if IsPedInAnyVehicle(PlayerPed) then
-                        Wait(math.random(15000, 25000))
-                        local NetObjectConsole = ObjToNet(ObjectConsole)
-                        TriggerServerEvent("mrf_atmrobbery:server:spawnATM", NetObjectConsole)
-
-                        Wait(Config.WaitTimeBeforeCrack * 1000) -- Wait for the specified time before allowing cracking again
-                        canCrack = true                         -- Allow cracking after the cooldown period
-                        exports[Config.Target]:AddTargetModel(models, {
-                            options = {
-                                {
-                                    event = "mrf_atmrobbery:client:crackATM",
-                                    icon = "fas fa-code",
-                                    label = "Crack ATM"
-                                }
-                            },
-                            distance = 2.0
-                        })
-                        inVehicle = false
+                    animDict = 'anim@gangops@facility@servers@',
+                    anim = 'hotwire',
+                    flags = 16,
+                }, {}, {}, function()
+                    if Config.PSDispacth then
+                        exports[Config.Dispatch]:SuspiciousActivity()
                     end
-                    Wait(0)
-                end
-            end, function()
-                RobberyStarted = false
-            end)
+                    ClearPedTasks(PlayerPed)
+                    local ObjectDes = nil
+                    local ObjectConsole = nil
+                    local ObjectCoords = GetEntityCoords(ATMObject.prop)
+                    local ObjectHeading = GetEntityHeading(ATMObject.prop)
+
+                    if ATMObject.type == "prop_atm_02" then
+                        ObjectDes = CreateObject("loq_atm_02_des",
+                            vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.35), true)
+                        ObjectConsole = CreateObject("loq_atm_02_console",
+                            vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.55), true)
+                        SetEntityHeading(ObjectDes, ObjectHeading)
+                        SetEntityHeading(ObjectConsole, ObjectHeading)
+                        FreezeEntityPosition(ObjectDes, true)
+                        FreezeEntityPosition(ObjectConsole, true)
+                    elseif ATMObject.type == "prop_atm_03" then
+                        ObjectDes = CreateObject("loq_atm_03_des",
+                            vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.35), true)
+                        ObjectConsole = CreateObject("loq_atm_03_console",
+                            vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.65), true)
+                        SetEntityHeading(ObjectDes, ObjectHeading)
+                        SetEntityHeading(ObjectConsole, ObjectHeading)
+                        FreezeEntityPosition(ObjectDes, true)
+                        FreezeEntityPosition(ObjectConsole, true)
+                    end
+                    RobberyStarted = false
+                    Wait(500)
+                    local ATMObjectProp = ObjToNet(ATMObject.prop)
+                    local NetworkVehicle = VehToNet(Vehicle)
+                    local NetObjectConsole = ObjToNet(ObjectConsole)
+                    TriggerServerEvent("mrf_atmrobbery:server:attachATM", ATMObjectProp, ObjectCoords.x, ObjectCoords.y,
+                        ObjectCoords.z, NetworkVehicle, NetObjectConsole)
+                    SetEntityCoords(ATMObject.prop, ObjectCoords.x, ObjectCoords.y, ObjectCoords.z - 10.0)
+                    inVehicle = true
+                    while inVehicle do
+                        if IsPedInAnyVehicle(PlayerPed) then
+                            Wait(math.random(15000, 25000))
+
+                            local NetObjectConsole = ObjToNet(ObjectConsole)
+                            TriggerServerEvent("mrf_atmrobbery:server:spawnATM", NetObjectConsole)
+
+                            Wait(Config.WaitTimeBeforeCrack * 1000) -- Wait for the specified time before allowing cracking again
+                            canCrack = true                     -- Allow cracking after the cooldown period
+                            -- Notification for finishing the cooldown
+                            QBCore.Functions.Notify("You have successfully waited for the cooldown period.", "success")
+                            
+                            exports[Config.Target]:AddTargetModel(models, {
+                                options = {
+                                    {
+                                        event = "mrf_atmrobbery:client:crackATM",
+                                        icon = "fas fa-code",
+                                        label = "Crack ATM"
+                                    }
+                                },
+                                distance = 2.0
+                            })
+                            inVehicle = false
+                        end
+                        Wait(0)
+                    end
+                end, function()
+                    RobberyStarted = false
+                end)
         else
             QBCore.Functions.Notify("There is no ATM nearby!", "error")
         end
@@ -232,8 +236,11 @@ AddEventHandler("mrf_atmrobbery:client:crackATM", function()
                 TriggerServerEvent("mrf_atmrobbery:server:getReward")
                 TriggerServerEvent("mrf_atmrobbery:server:deleteATM", NetConsoleProp)
                 TriggerServerEvent("mrf_atmrobbery:server:deleteRopeProp", Rope)
+                TriggerServerEvent("mrf_atmrobbery:server:addRopeItem")
             else
-                QBCore.Functions.Notify("You Failed, Try Again", 'error', 7500)
+                QBCore.Functions.Notify(
+                "You attempted to crack the ATM too early. Wait for the cooldown period to finish.", 'error', 7500)
+                canCrack = true -- Allow cracking after the cooldown period
             end
         end)
     else
@@ -252,7 +259,7 @@ AddEventHandler("mrf_atmrobbery:client:attachVehicle", function(NetworkVehicle, 
     local NetVeh = NetToEnt(NetworkVehicle)
     local NetPed = NetToEnt(NetworkPlayerPed)
     local PedCoords = GetEntityCoords(NetPed)
-    AttachEntitiesToRope(Rope, NetVeh, NetPed, GetOffsetFromEntityInWorldCoords(NetVeh, 0, -2.3, 0.5),
+    AttachEntitiesToRope(Rope, NetVeh, NetPed, GetOffsetFromEntityInWorldCoords(NetVeh, 0, -2.2, 0.0),
         GetPedBoneCoords(NetPed, 6286, 0.0, 0.0, 0.0), 7.0, 0, 0, "rope_attach_a", "rope_attach_b")
     SlideObject(Rope, PedCoords.x, PedCoords.y, PedCoords.z, 1.0, 1.0, 1.0, true)
 end)
@@ -266,7 +273,7 @@ AddEventHandler("mrf_atmrobbery:client:attachATM",
         local NetProp = NetToEnt(ATMObjectProp)
         local ObjectCoords = GetEntityCoords(NetObject)
         SetEntityCoords(NetProp, ObjectCoordsx, ObjectCoordsy, ObjectCoordsz - 10.0)
-        AttachEntitiesToRope(Rope, NetVeh, NetObject, GetOffsetFromEntityInWorldCoords(NetVeh, 0, -2.3, 0.5),
+        AttachEntitiesToRope(Rope, NetVeh, NetObject, GetOffsetFromEntityInWorldCoords(NetVeh, 0, -2.2, 0.0),
             ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 1.0, 7.0, 0, 0, "rope_attach_a", "rope_attach_b")
     end)
 
