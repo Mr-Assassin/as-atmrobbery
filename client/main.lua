@@ -115,9 +115,8 @@ AddEventHandler("as_atmrobbery:client:attachRopeATM", function()
                             local NetObjectConsole = ObjToNet(ObjectConsole)
                             TriggerServerEvent("as_atmrobbery:server:spawnATM", NetObjectConsole)
 
-                            Wait(Config.WaitTimeBeforeCrack * 1000) -- Wait for the specified time before allowing cracking again
+                            Wait(Config.WaitTimeBeforeCrack * 1000) -- Wait  before allowing cracking again
                             canCrack = true                     -- Allow cracking after the cooldown period
-                            -- Notification for finishing the cooldown
                             QBCore.Functions.Notify("You have successfully waited for the cooldown period.", "success")
                             
                             exports[Config.Target]:AddTargetModel(models, {
@@ -217,7 +216,7 @@ end)
 RegisterNetEvent("as_atmrobbery:client:crackATM")
 AddEventHandler("as_atmrobbery:client:crackATM", function()
     if canCrack then
-        canCrack = false -- Set to false to initiate cooldown
+        canCrack = false -- false to initiate cooldown
         local ConsoleProp = ATMConsole()
         local NetConsoleProp = ObjToNet(ConsoleProp)
 
