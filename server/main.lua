@@ -1,7 +1,7 @@
 local QBCore = exports[Config.Core]:GetCoreObject()
 
-RegisterServerEvent("mrf_atmrobbery:server:getReward")
-AddEventHandler("mrf_atmrobbery:server:getReward", function()
+RegisterServerEvent("as_atmrobbery:server:getReward")
+AddEventHandler("as_atmrobbery:server:getReward", function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
@@ -37,43 +37,43 @@ AddEventHandler("mrf_atmrobbery:server:getReward", function()
     end
 end)
 
-RegisterServerEvent("mrf_atmrobbery:server:spawnRope")
-AddEventHandler("mrf_atmrobbery:server:spawnRope", function()
-    TriggerClientEvent("mrf_atmrobbery:client:spawnRope", -1)
+RegisterServerEvent("as_atmrobbery:server:spawnRope")
+AddEventHandler("as_atmrobbery:server:spawnRope", function()
+    TriggerClientEvent("as_atmrobbery:client:spawnRope", -1)
 end)
 
-RegisterServerEvent("mrf_atmrobbery:server:attachVehicle")
-AddEventHandler("mrf_atmrobbery:server:attachVehicle", function(NetworkVehicle, NetworkPlayerPed)
-    TriggerClientEvent("mrf_atmrobbery:client:attachVehicle", -1, NetworkVehicle, NetworkPlayerPed)
+RegisterServerEvent("as_atmrobbery:server:attachVehicle")
+AddEventHandler("as_atmrobbery:server:attachVehicle", function(NetworkVehicle, NetworkPlayerPed)
+    TriggerClientEvent("as_atmrobbery:client:attachVehicle", -1, NetworkVehicle, NetworkPlayerPed)
 end)
 
-RegisterServerEvent("mrf_atmrobbery:server:attachATM")
-AddEventHandler("mrf_atmrobbery:server:attachATM", function(ATMObjectProp, ObjectCoordsx, ObjectCoordsy, ObjectCoordsz, NetworkVehicle, NetObjectConsole)
-    TriggerClientEvent("mrf_atmrobbery:client:attachATM", -1, ATMObjectProp, ObjectCoordsx, ObjectCoordsy, ObjectCoordsz, NetworkVehicle, NetObjectConsole)
+RegisterServerEvent("as_atmrobbery:server:attachATM")
+AddEventHandler("as_atmrobbery:server:attachATM", function(ATMObjectProp, ObjectCoordsx, ObjectCoordsy, ObjectCoordsz, NetworkVehicle, NetObjectConsole)
+    TriggerClientEvent("as_atmrobbery:client:attachATM", -1, ATMObjectProp, ObjectCoordsx, ObjectCoordsy, ObjectCoordsz, NetworkVehicle, NetObjectConsole)
 end)
 
-RegisterServerEvent("mrf_atmrobbery:server:spawnATM")
-AddEventHandler("mrf_atmrobbery:server:spawnATM", function(NetObjectConsole)
-    TriggerClientEvent("mrf_atmrobbery:client:spawnATM", -1, NetObjectConsole)
+RegisterServerEvent("as_atmrobbery:server:spawnATM")
+AddEventHandler("as_atmrobbery:server:spawnATM", function(NetObjectConsole)
+    TriggerClientEvent("as_atmrobbery:client:spawnATM", -1, NetObjectConsole)
 end)
 
-RegisterServerEvent("mrf_atmrobbery:server:deleteATM")
-AddEventHandler("mrf_atmrobbery:server:deleteATM", function(NetConsoleProp)
-    TriggerClientEvent("mrf_atmrobbery:client:deleteATM", -1, NetConsoleProp)
+RegisterServerEvent("as_atmrobbery:server:deleteATM")
+AddEventHandler("as_atmrobbery:server:deleteATM", function(NetConsoleProp)
+    TriggerClientEvent("as_atmrobbery:client:deleteATM", -1, NetConsoleProp)
 end)
 
-RegisterServerEvent("mrf_atmrobbery:server:deleteRopeProp")
-AddEventHandler("mrf_atmrobbery:server:deleteRopeProp", function(Rope)
-    TriggerClientEvent("mrf_atmrobbery:client:deleteRopeProp", -1, Rope)
+RegisterServerEvent("as_atmrobbery:server:deleteRopeProp")
+AddEventHandler("as_atmrobbery:server:deleteRopeProp", function(Rope)
+    TriggerClientEvent("as_atmrobbery:client:deleteRopeProp", -1, Rope)
 end)
 
 QBCore.Functions.CreateUseableItem(Config.RequiredItem, function(source, item)
     local src = source
-    TriggerClientEvent("mrf_atmrobbery:client:ropeUsed", src)
+    TriggerClientEvent("as_atmrobbery:client:ropeUsed", src)
 end)
 
-RegisterServerEvent("mrf_atmrobbery:server:RemoveItem")
-AddEventHandler("mrf_atmrobbery:server:RemoveItem", function(Rope)
+RegisterServerEvent("as_atmrobbery:server:RemoveItem")
+AddEventHandler("as_atmrobbery:server:RemoveItem", function(Rope)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if Player.Functions.RemoveItem(Config.RequiredItem, 1) then
@@ -81,8 +81,8 @@ AddEventHandler("mrf_atmrobbery:server:RemoveItem", function(Rope)
 	end
 end)
 
-RegisterServerEvent("mrf_atmrobbery:server:addRopeItem")
-AddEventHandler("mrf_atmrobbery:server:addRopeItem", function(Rope)
+RegisterServerEvent("as_atmrobbery:server:addRopeItem")
+AddEventHandler("as_atmrobbery:server:addRopeItem", function(Rope)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if Player.Functions.AddItem(Config.RequiredItem, 1) then

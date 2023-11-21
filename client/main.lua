@@ -52,8 +52,8 @@ AddEventHandler('police:SetCopCount', function(amount)
     CurrentCops = amount
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:attachRopeATM")
-AddEventHandler("mrf_atmrobbery:client:attachRopeATM", function()
+RegisterNetEvent("as_atmrobbery:client:attachRopeATM")
+AddEventHandler("as_atmrobbery:client:attachRopeATM", function()
     if RobberyStarted then
         exports[Config.Target]:RemoveTargetModel(defaultModels)
         local PlayerPed = PlayerPedId()
@@ -104,7 +104,7 @@ AddEventHandler("mrf_atmrobbery:client:attachRopeATM", function()
                     local ATMObjectProp = ObjToNet(ATMObject.prop)
                     local NetworkVehicle = VehToNet(Vehicle)
                     local NetObjectConsole = ObjToNet(ObjectConsole)
-                    TriggerServerEvent("mrf_atmrobbery:server:attachATM", ATMObjectProp, ObjectCoords.x, ObjectCoords.y,
+                    TriggerServerEvent("as_atmrobbery:server:attachATM", ATMObjectProp, ObjectCoords.x, ObjectCoords.y,
                         ObjectCoords.z, NetworkVehicle, NetObjectConsole)
                     SetEntityCoords(ATMObject.prop, ObjectCoords.x, ObjectCoords.y, ObjectCoords.z - 10.0)
                     inVehicle = true
@@ -113,7 +113,7 @@ AddEventHandler("mrf_atmrobbery:client:attachRopeATM", function()
                             Wait(math.random(15000, 25000))
 
                             local NetObjectConsole = ObjToNet(ObjectConsole)
-                            TriggerServerEvent("mrf_atmrobbery:server:spawnATM", NetObjectConsole)
+                            TriggerServerEvent("as_atmrobbery:server:spawnATM", NetObjectConsole)
 
                             Wait(Config.WaitTimeBeforeCrack * 1000) -- Wait for the specified time before allowing cracking again
                             canCrack = true                     -- Allow cracking after the cooldown period
@@ -123,7 +123,7 @@ AddEventHandler("mrf_atmrobbery:client:attachRopeATM", function()
                             exports[Config.Target]:AddTargetModel(models, {
                                 options = {
                                     {
-                                        event = "mrf_atmrobbery:client:crackATM",
+                                        event = "as_atmrobbery:client:crackATM",
                                         icon = "fas fa-code",
                                         label = "Crack ATM"
                                     }
@@ -145,20 +145,20 @@ AddEventHandler("mrf_atmrobbery:client:attachRopeATM", function()
     end
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:stopAttaching")
-AddEventHandler("mrf_atmrobbery:client:stopAttaching", function()
+RegisterNetEvent("as_atmrobbery:client:stopAttaching")
+AddEventHandler("as_atmrobbery:client:stopAttaching", function()
     if RobberyStarted then
         exports[Config.Target]:RemoveTargetModel(defaultModels)
         RobberyStarted = false
-        TriggerServerEvent("mrf_atmrobbery:server:deleteRopeProp", Rope)
-        TriggerServerEvent("mrf_atmrobbery:server:addRopeItem")
+        TriggerServerEvent("as_atmrobbery:server:deleteRopeProp", Rope)
+        TriggerServerEvent("as_atmrobbery:server:addRopeItem")
     else
         QBCore.Functions.Notify("How did you do this?", "error")
     end
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:ropeUsed")
-AddEventHandler("mrf_atmrobbery:client:ropeUsed", function()
+RegisterNetEvent("as_atmrobbery:client:ropeUsed")
+AddEventHandler("as_atmrobbery:client:ropeUsed", function()
     Vehicle = QBCore.Functions.GetClosestVehicle()
     local PlayerPed = PlayerPedId()
     local PlayerPos = GetEntityCoords(PlayerPed)
@@ -178,20 +178,20 @@ AddEventHandler("mrf_atmrobbery:client:ropeUsed", function()
                     flags = 16,
                 }, {}, {}, function()
                     ClearPedTasks(PlayerPed)
-                    TriggerServerEvent("mrf_atmrobbery:server:spawnRope")
-                    TriggerServerEvent("mrf_atmrobbery:server:RemoveItem")
+                    TriggerServerEvent("as_atmrobbery:server:spawnRope")
+                    TriggerServerEvent("as_atmrobbery:server:RemoveItem")
                     RobberyStarted = true
                     local NetworkVehicle = VehToNet(Vehicle)
                     local NetworkPlayerPed = PedToNet(PlayerPed)
                     exports[Config.Target]:AddTargetModel(defaultModels, {
                         options = {
                             {
-                                event = "mrf_atmrobbery:client:attachRopeATM",
+                                event = "as_atmrobbery:client:attachRopeATM",
                                 icon = "fas fa-chevron-right",
                                 label = "Attach Rope to ATM"
                             },
                             {
-                                event = "mrf_atmrobbery:client:stopAttaching",
+                                event = "as_atmrobbery:client:stopAttaching",
                                 icon = "fas fa-chevron-left",
                                 label = "Stop Attaching Rope"
                             }
@@ -199,7 +199,7 @@ AddEventHandler("mrf_atmrobbery:client:ropeUsed", function()
                         distance = 2.5
                     })
                     while RobberyStarted do
-                        TriggerServerEvent("mrf_atmrobbery:server:attachVehicle", NetworkVehicle, NetworkPlayerPed)
+                        TriggerServerEvent("as_atmrobbery:server:attachVehicle", NetworkVehicle, NetworkPlayerPed)
                         Wait(0)
                     end
                 end, function()
@@ -214,8 +214,8 @@ AddEventHandler("mrf_atmrobbery:client:ropeUsed", function()
     end
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:crackATM")
-AddEventHandler("mrf_atmrobbery:client:crackATM", function()
+RegisterNetEvent("as_atmrobbery:client:crackATM")
+AddEventHandler("as_atmrobbery:client:crackATM", function()
     if canCrack then
         canCrack = false -- Set to false to initiate cooldown
         local ConsoleProp = ATMConsole()
@@ -233,10 +233,10 @@ AddEventHandler("mrf_atmrobbery:client:crackATM", function()
             local success = true
 
             if success then
-                TriggerServerEvent("mrf_atmrobbery:server:getReward")
-                TriggerServerEvent("mrf_atmrobbery:server:deleteATM", NetConsoleProp)
-                TriggerServerEvent("mrf_atmrobbery:server:deleteRopeProp", Rope)
-                TriggerServerEvent("mrf_atmrobbery:server:addRopeItem")
+                TriggerServerEvent("as_atmrobbery:server:getReward")
+                TriggerServerEvent("as_atmrobbery:server:deleteATM", NetConsoleProp)
+                TriggerServerEvent("as_atmrobbery:server:deleteRopeProp", Rope)
+                TriggerServerEvent("as_atmrobbery:server:addRopeItem")
             else
                 QBCore.Functions.Notify(
                 "You attempted to crack the ATM too early. Wait for the cooldown period to finish.", 'error', 7500)
@@ -248,14 +248,14 @@ AddEventHandler("mrf_atmrobbery:client:crackATM", function()
     end
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:spawnRope")
-AddEventHandler("mrf_atmrobbery:client:spawnRope", function()
+RegisterNetEvent("as_atmrobbery:client:spawnRope")
+AddEventHandler("as_atmrobbery:client:spawnRope", function()
     RopeLoadTextures()
     Rope = AddRope(1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1, 7.0, 1.0, 0, 0, 0, 0, 0, 0)
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:attachVehicle")
-AddEventHandler("mrf_atmrobbery:client:attachVehicle", function(NetworkVehicle, NetworkPlayerPed)
+RegisterNetEvent("as_atmrobbery:client:attachVehicle")
+AddEventHandler("as_atmrobbery:client:attachVehicle", function(NetworkVehicle, NetworkPlayerPed)
     local NetVeh = NetToEnt(NetworkVehicle)
     local NetPed = NetToEnt(NetworkPlayerPed)
     local PedCoords = GetEntityCoords(NetPed)
@@ -264,8 +264,8 @@ AddEventHandler("mrf_atmrobbery:client:attachVehicle", function(NetworkVehicle, 
     SlideObject(Rope, PedCoords.x, PedCoords.y, PedCoords.z, 1.0, 1.0, 1.0, true)
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:attachATM")
-AddEventHandler("mrf_atmrobbery:client:attachATM",
+RegisterNetEvent("as_atmrobbery:client:attachATM")
+AddEventHandler("as_atmrobbery:client:attachATM",
     function(ATMObjectProp, ObjectCoordsx, ObjectCoordsy, ObjectCoordsz, NetworkVehicle, NetObjectConsole)
         NetworkRequestControlOfEntity(ATMObjectProp)
         local NetVeh = NetToEnt(NetworkVehicle)
@@ -277,21 +277,21 @@ AddEventHandler("mrf_atmrobbery:client:attachATM",
             ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 1.0, 7.0, 0, 0, "rope_attach_a", "rope_attach_b")
     end)
 
-RegisterNetEvent("mrf_atmrobbery:client:spawnATM")
-AddEventHandler("mrf_atmrobbery:client:spawnATM", function(NetObjectConsole)
+RegisterNetEvent("as_atmrobbery:client:spawnATM")
+AddEventHandler("as_atmrobbery:client:spawnATM", function(NetObjectConsole)
     local ConsoleObject = NetToEnt(NetObjectConsole)
     FreezeEntityPosition(ConsoleObject, false)
     SetObjectPhysicsParams(ConsoleObject, 170.0, -1.0, 30.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0)
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:deleteATM")
-AddEventHandler("mrf_atmrobbery:client:deleteATM", function(NetConsoleProp)
+RegisterNetEvent("as_atmrobbery:client:deleteATM")
+AddEventHandler("as_atmrobbery:client:deleteATM", function(NetConsoleProp)
     local ConsoleProp = NetToEnt(NetConsoleProp)
     DeleteEntity(ConsoleProp)
 end)
 
-RegisterNetEvent("mrf_atmrobbery:client:deleteRopeProp")
-AddEventHandler("mrf_atmrobbery:client:deleteRopeProp", function(Rope)
+RegisterNetEvent("as_atmrobbery:client:deleteRopeProp")
+AddEventHandler("as_atmrobbery:client:deleteRopeProp", function(Rope)
     DeleteRope(Rope)
     Rope = nil
 end)
