@@ -6,7 +6,7 @@
 * No Support
 
 # Robbery Preview
-* [Preview](https://youtu.be/vXsjenKWo7k)
+
 
 # Add to qb-core > shared > items.lua
 ```lua
