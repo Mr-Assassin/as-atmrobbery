@@ -6,11 +6,12 @@ local canCrack = true
 
 local defaultModels = {
     GetHashKey("prop_atm_03"),
-    GetHashKey("prop_atm_02")
+    GetHashKey("prop_atm_02"),
+    GetHashKey("prop_fleeca_atm")
 }
 
 function ATMObject()
-    for k, v in pairs({ "prop_atm_02", "prop_atm_03" }) do
+    for k, v in pairs({ "prop_atm_02", "prop_atm_03", "prop_fleeca_atm" }) do
         local obj = GetClosestObjectOfType(GetEntityCoords(PlayerPedId()), 5.0, GetHashKey(v))
         if DoesEntityExist(obj) then
             local ATMObject = {
@@ -24,7 +25,7 @@ function ATMObject()
 end
 
 function ATMConsole()
-    for k, v in pairs({ "loq_atm_02_console", "loq_atm_03_console" }) do
+    for k, v in pairs({ "loq_fleeca_atm_console", "loq_atm_02_console", "loq_atm_03_console" }) do
         local obj = GetClosestObjectOfType(GetEntityCoords(PlayerPedId()), 5.0, GetHashKey(v))
         if DoesEntityExist(obj) then
             return obj
@@ -43,10 +44,10 @@ function loadExistModel(hash)
 end
 
 local models = {
+    GetHashKey("loq_fleeca_atm_console"),
     GetHashKey("loq_atm_02_console"),
     GetHashKey("loq_atm_03_console")
 }
-
 RegisterNetEvent('police:SetCopCount')
 AddEventHandler('police:SetCopCount', function(amount)
     CurrentCops = amount
@@ -94,6 +95,15 @@ AddEventHandler("as_atmrobbery:client:attachRopeATM", function()
                             vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.35), true)
                         ObjectConsole = CreateObject("loq_atm_03_console",
                             vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.65), true)
+                        SetEntityHeading(ObjectDes, ObjectHeading)
+                        SetEntityHeading(ObjectConsole, ObjectHeading)
+                        FreezeEntityPosition(ObjectDes, true)
+                        FreezeEntityPosition(ObjectConsole, true)
+                    elseif ATMObject.type == "prop_fleeca_atm" then
+                        ObjectDes = CreateObject("loq_fleeca_atm_des",
+                            vector3(ObjectCoords.x, ObjectCoords.y, ObjectCoords.z + 0.35), true)
+                        ObjectConsole = CreateObject("loq_fleeca_atm_console",
+                            vector3(ObjectCoords.x, ObjectCoords.y + 0.05, ObjectCoords.z + 0.65), true)
                         SetEntityHeading(ObjectDes, ObjectHeading)
                         SetEntityHeading(ObjectConsole, ObjectHeading)
                         FreezeEntityPosition(ObjectDes, true)
@@ -299,3 +309,5 @@ loadExistModel("loq_atm_02_console")
 loadExistModel("loq_atm_02_des")
 loadExistModel("loq_atm_03_console")
 loadExistModel("loq_atm_03_des")
+loadExistModel("loq_fleeca_atm_console")
+loadExistModel("loq_fleeca_atm_des")

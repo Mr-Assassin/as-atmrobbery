@@ -4,6 +4,7 @@
 * removed required minigame 
 * added a lock out timer befor can crack the safe in config
 * No Support as i am clueless
+* added fleeca atm back
 
 # Robbery Preview
 
