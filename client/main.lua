@@ -110,7 +110,7 @@ AddEventHandler("as_atmrobbery:client:attachRopeATM", function()
                     inVehicle = true
                     while inVehicle do
                         if IsPedInAnyVehicle(PlayerPed) then
-                            Wait(math.random(15000, 25000))
+                            Wait(math.random(25000, 50000))
 
                             local NetObjectConsole = ObjToNet(ObjectConsole)
                             TriggerServerEvent("as_atmrobbery:server:spawnATM", NetObjectConsole)

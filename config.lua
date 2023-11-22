@@ -9,7 +9,7 @@ Config.WaitTimeBeforeCrack = 120 -- Adjust the time in seconds as needed
 -- Loot
 Config.Markedbills = true -- if true it will give you cash as a item
 Config.MoneyItem = 'markedbills'
-Config.Cash = math.random(3000, 5000)
+Config.Cash = math.random(4000, 8000)
 
 -- Reward
 Config.RewardItem = 'cryptostick'

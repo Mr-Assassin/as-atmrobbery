@@ -10,7 +10,7 @@
 
 # Add to qb-core > shared > items.lua
 ```lua
-    ["rope"]                             = {["name"] = "rope",	                ["label"] = "Rope",               ["weight"] = 1500,      ["type"] = "item",       ["image"] = "rope.png",          ["unique"] = true,      ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "maybe somewhere to attached"},
+    ["rope"]                             = {["name"] = "rope",	                ["label"] = "Rope",               ["weight"] = 1500,      ["type"] = "item",       ["image"] = "rope.png",          ["unique"] = true,      ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "maybe somewhere to attached looks thick enough to pull something"},
 ```
 
 * You need to add the item img in qb-inventory/html/images.
@@ -22,3 +22,4 @@
 
 # Original
 https://github.com/ddainusshaa/dd-atmrobbery
+https://github.com/BigPapaBear2217/mrf_atmrobbery
