@@ -3,7 +3,7 @@
 # ATM Robbery With Rope and Car
 * removed required minigame 
 * added a lock out timer befor can crack the safe in config
-* No Support
+* No Support as i am clueless
 
 # Robbery Preview
 
